@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container-fluid">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <div class="col-md-3 my-2 mb-md-0">
+        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none align-middle">
+            <img class="bi" width="50" height="50" src="/images/logo.svg" alt="">  <div class="h2 fw-bold">Members Only</div>
+        </a>
+      </div>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="/" class="nav-link px-2 link-dark">Home</a></li>
+        <% if(user){%>
+        <li><a class="nav-link px-2 link-secondary" href=<%=`${user.url}`%> >User Details</a></li> 
+        <li><a href=<%= `${user.url}/chat` %> class="nav-link px-2 link-secondary">Chat</a></li> 
+        <%}%>
+       
+      </ul>
+
+      <div class="col-md-3 text-end">
+        <!-- log in out login logic -->
+        <% if(user) { %>
+          <button type="button" class="btn btn-dark"><a href="/log-out" class="nav-link px-2">Log Out</a></button> 
+        <%} else { %>
+          <button type="button" class="btn btn-dark"><a href="/messageboard/sign-up" class="nav-link px-2">Sign up</a></button>
+        <%}%>
+      </div>
+    </header>
+  </div >
+  <div class="container">
+    <h1 class=" display-4 lead">User Details</h1>
+   
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col"></th>
+          <th scope="col">Username</th>
+          <th scope="col">
+             Membership Status
+          </th>
+          <th scope="col">Administration privileges</th>
+          <th scope="col">Number of messages</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row"></th>
+          <td><%= user.username%></td>
+          <td class="">
+            <div class="d-inline-flex">
+                 <!-- Button trigger modal -->
+            <button class="nav-link px-2" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">
+              <%= `${user.privileges}`%>
+            </button></td>
+            </div>
+          <td><%= `${user.isAdmin}`%></td>
+          <td><%= `${message_count}`%></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Hey you found the secrete way to join the club</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          all you have to do is pick the right button, pick the wrong one and we delete your account 😈. its easy.
+        </div>
+        <div class="modal-footer btn-group">
+          <!-- right btn -->
+          <button class="btn btn-danger" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">Definitely the wrong button</button>
+          <!-- wrong btn -->
+          <button class="btn btn-success ">
+            <a href="/messageboard/sign-up" class="nav-link px-2">THIS IS THE RIGHT BUTTON</a>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">YAY!</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          Close one that could have been really unfortunate, sadly congratulations you picked right. just click the button and welcome to the club!
+        </div>
+        <div class="modal-footer">
+          <!-- btn for second modal -->
+          <button class="btn btn-dark" >
+            Back to first
+            <form class="container d-inline-flex my-3" action=<%=` ${user.url}/update-user ` %> method="POST">
+              <button class="btn btn-dark rounded-5 px-5 mx-2">post </button>
+            </form>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+   
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>

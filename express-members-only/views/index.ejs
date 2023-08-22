@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+  <div class="container-fluid">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <div class="col-md-3 my-2 mb-md-0">
+        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none align-middle">
+            <img class="bi" width="50" height="50" src="/images/logo.svg" alt="">  <div class="h2 fw-bold">Members Only</div>
+        </a>
+      </div>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="/" class="nav-link px-2 link-dark">Home</a></li>
+        <% if(user){%>
+        <li><a class="nav-link px-2 link-secondary" href=<%=`${user.url}`%> >User Details</a></li> 
+        <li><a href=<%= `${user.url}/chat` %> class="nav-link px-2 link-secondary">Chat</a></li> 
+        <%}%>
+       
+      </ul>
+
+      <div class="col-md-3 text-end">
+        <!-- log in out login logic -->
+        <% if(user) { %>
+          <button type="button" class="btn btn-dark"><a href="/log-out" class="nav-link px-2">Log Out</a></button> 
+        <%} else { %>
+          <button type="button" class="btn btn-dark"><a href="/messageboard/sign-up" class="nav-link px-2">Sign up</a></button>
+        <%}%>
+      </div>
+    </header>
+  </div>
+<!-- user logged in -->
+  <% if (user) {%>
+    <div class="px-4 py-5 my-5 text-center">
+      
+      <h1 class="display-5 fw-bold text-body-emphasis">Welcome Back!</h1>
+      <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">Now that you're go find out whats been going on while you where gone.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <button type="button" class="btn btn-dark btn-lg px-4 gap-3"><a class="nav-link px-2 link-secondary" href=<%=`${user.url}`%> >User Details</a></button>
+          <button type="button" class="btn btn-outline-dark btn-lg px-4"><a href=<%= `${user.url}/chat` %> class="nav-link px-2 link-secondary">Chat</a></button>
+        </div>
+      </div>
+    </div>
+<!-- user not logged in -->
+  <% } else {%>
+    <div class="container col-xl-10 col-xxl-8 px-4 py-5">
+      <div class="row align-items-center g-lg-5 py-5">
+        <div class="col-lg-7 text-center text-lg-start">
+          <h1 class="display-4 fw-bold lh-1 text-body-emphasis mb-3">We cant wait to hear what you have to say</h1>
+          <p class="col-lg-10 fs-4">But before you chat with the group you need to join the group. hence the name Members Only.</p>
+        </div>
+        <div class="col-md-10 mx-auto col-lg-5">
+          <form class="p-4 p-md-5 border rounded-3 bg-body-tertiary" action="/log-in" method="POST">
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" id="username" name="username" placeholder="name@example.com">
+              <label for="username">Username</label>
+            </div>
+            <div class="form-floating mb-3">
+              <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+              <label for="password">Password</label>
+            </div>
+            <div class="checkbox mb-3">
+              <label>
+                <input type="checkbox" value="remember-me"> Remember me
+              </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-dark" type="submit">login</button>
+            <hr class="my-4">
+            <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
+          </form>
+        </div>
+      </div>
+    </div>
+  <% } %>
+  
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>

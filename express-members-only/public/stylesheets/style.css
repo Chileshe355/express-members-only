@@ -1,0 +1,18 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+
+.rotate_01{
+  transition: transform 1s;
+}
+
+.rotate_01:hover{
+  transform: rotate(360deg) translateZ(0);
+}
+

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+  <div class="container-fluid">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <div class="col-md-3 my-2 mb-md-0">
+        <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none align-middle">
+            <img class="bi" width="50" height="50" src="/images/logo.svg" alt="">  <div class="h2 fw-bold">Members Only</div>
+        </a>
+      </div>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="/" class="nav-link px-2 link-dark">Home</a></li>
+        <% if(user){%>
+        <li><a class="nav-link px-2 link-secondary" href=<%=`${user.url}`%> >User Details</a></li> 
+        <li><a href=<%= `${user.url}/chat` %> class="nav-link px-2 link-secondary">Chat</a></li> 
+        <%}%>
+       
+      </ul>
+
+      <div class="col-md-3 text-end">
+        <!-- log in out login logic -->
+        <% if(user) { %>
+          <button type="button" class="btn btn-dark"><a href="/log-out" class="nav-link px-2">Log Out</a></button> 
+        <%} else { %>
+          <button type="button" class="btn btn-dark"><a href="/messageboard/sign-up" class="nav-link px-2">Sign up</a></button>
+        <%}%>
+      </div>
+    </header>
+  </div>
+   
+    <ul class=" list-group container px-5 ">
+      <h1 class="lead display-4"><%= title %></h1>
+     
+        <% chat.forEach(function(item){ %>
+            <div class=" bg-light container py-3 ">
+              
+              <%if(`${user.id}`==`${item.sender_id}`){%>
+                
+              <div class="border-dark  container d-inline-flex   justify-content-end">
+                <%if(user.privileges==='member'||user.isAdmin=="on"){%>
+                  <span class=" px-1 pt-4 bg-light text-dark "> you  </span>  
+                <%}%>
+                <span class="lead mx-4 w-auto bg-light text-dark border border-dark rounded-5 px-5 py-2"> <%= item.message%>  </span>  
+                <%if(user.isAdmin=="on"){%>
+                <form action=<%=` ${item.url}/delete-message ` %> method="post">
+                   <button class="btn btn-danger rounded-5 px-3 py-2">x</button>
+                </form>
+                <%}%>
+              </div>
+              <%} else {%>
+                <%if(user.privileges==='member'||user.isAdmin=="on"){%>
+                  <span class=" px-1 pt-4 bg-light text-dark "> <%= item.sender%>  </span>  
+                <%}%>
+                <div class="border-dark  container d-inline-flex   justify-content-start">
+                  <span class="lead mx-4 w-auto bg-dark text-light rounded-5 px-5 py-2"> <%= item.message%>  </span>  
+                  <%if(user.isAdmin=="on"){%>
+                  <form action=<%=` ${item.url}/delete-message ` %> method="post">
+                     <button class="btn btn-danger rounded-5 px-3 py-2">x</button>
+                  </form>
+                  <%}%>
+                </div>
+              <%}%>
+            </div>
+        <% }) %>
+        <form class="container d-inline-flex my-3" action=<%=` ${user.url}/send-message ` %> method="POST">
+          
+          <input class="form-control rounded-5 px-5 mx-2" name="message" placeholder="type message here" type="text" />
+          <button class="btn btn-dark rounded-5 px-5 mx-2">post </button>
+        </form>
+    </ul>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
